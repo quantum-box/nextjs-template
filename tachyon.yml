@@ -1,16 +1,16 @@
 apiVersion: apps.tachy.one/v1alpha
 kind: CloudApps
 metadata:
-  name: nextjs-template
-  tenantId: tn_01hjjn348rn3t49zz6hvmfq67p
+  name: __APP_NAME__
+  tenantId: __TENANT_ID__
 spec:
   apps:
-    - name: nextjs-template
+    - name: __APP_NAME__
       repository:
-        url: https://github.com/quantum-box/nextjs-template
-        owner: quantum-box
-        name: nextjs-template
-        defaultBranch: main
+        url: https://github.com/__REPOSITORY_OWNER__/__REPOSITORY_NAME__
+        owner: __REPOSITORY_OWNER__
+        name: __REPOSITORY_NAME__
+        defaultBranch: __DEFAULT_BRANCH__
       rootDirectory: .
       framework: worker
       deploymentTarget: cloudflare_workers
