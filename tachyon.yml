@@ -1,0 +1,23 @@
+apiVersion: apps.tachy.one/v1alpha
+kind: CloudApps
+metadata:
+  name: nextjs-template
+  tenantId: tn_01hjjn348rn3t49zz6hvmfq67p
+spec:
+  apps:
+    - name: nextjs-template
+      repository:
+        url: https://github.com/quantum-box/nextjs-template
+        owner: quantum-box
+        name: nextjs-template
+        defaultBranch: main
+      rootDirectory: .
+      framework: worker
+      deploymentTarget: cloudflare_workers
+      build:
+        installCommand: npm ci
+        command: npm run build
+        nodeVersion: '22'
+        runnerBackend: kubernetes_kata
+      readinessProof:
+        path: /
