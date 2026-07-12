@@ -1,0 +1,23 @@
+apiVersion: apps.tachy.one/v1alpha
+kind: CloudApps
+metadata:
+  name: __APP_NAME__
+  tenantId: __TENANT_ID__
+spec:
+  apps:
+    - name: __APP_NAME__
+      repository:
+        url: https://github.com/__REPOSITORY_OWNER__/__REPOSITORY_NAME__
+        owner: __REPOSITORY_OWNER__
+        name: __REPOSITORY_NAME__
+        defaultBranch: __DEFAULT_BRANCH__
+      rootDirectory: .
+      framework: worker
+      deploymentTarget: cloudflare_workers
+      build:
+        installCommand: npm ci
+        command: npm run build
+        nodeVersion: '22'
+        runnerBackend: kubernetes_kata
+      readinessProof:
+        path: /
