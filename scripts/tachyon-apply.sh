@@ -55,16 +55,20 @@ fi
 rendered_manifest="$(mktemp)"
 trap 'rm -f "${rendered_manifest}"' EXIT
 
-sed \
+# Only render the leading consumer template; later documents belong to this repository.
+sed -n \
+  -e '/^---[[:space:]]*$/q' \
   -e "s|__APP_NAME__|${APP_NAME}|g" \
   -e "s|__TENANT_ID__|${TENANT_ID}|g" \
   -e "s|__REPOSITORY_OWNER__|${REPOSITORY_OWNER}|g" \
   -e "s|__REPOSITORY_NAME__|${REPOSITORY_NAME}|g" \
   -e "s|__DEFAULT_BRANCH__|${DEFAULT_BRANCH}|g" \
+  -e p \
   "${TEMPLATE_PATH}" >"${rendered_manifest}"
 
 echo "Applying Cloud App ${APP_NAME} from ${REPOSITORY_OWNER}/${REPOSITORY_NAME} to ${TENANT_ID}."
 "${TACHYON_BIN}" compute apps apply \
   --file "${rendered_manifest}" \
+  --app "${APP_NAME}" \
   --tenant-id "${TENANT_ID}" \
   "$@"
