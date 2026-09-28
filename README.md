@@ -19,8 +19,22 @@ The helper derives the GitHub owner, repository, and Cloud App name from the
 can then omit the app name because Tachyon resolves the registered app from the
 same remote. A successful build deploys the Worker automatically.
 
-No file edits are required for repositories in the default Tachyon tenant. For
-a different tenant or app name, override only the value that differs:
+The production URL is `https://<app-name>.txcloud.app`. With the defaults,
+`<app-name>` is the new GitHub repository name. For example, a repository named
+`customer-portal` is served at `https://customer-portal.txcloud.app` after the
+main-branch build and deployment succeed.
+
+### Minimum changes after using the template
+
+- Default Tachyon tenant and repository-name app: change nothing.
+- Different tenant: set `TACHYON_TENANT_ID` when running the helper.
+- Different app name: set `TACHYON_APP_NAME` when running the helper.
+- Non-`main` default branch: set `TACHYON_DEFAULT_BRANCH` when running the
+  helper and pass the same branch to `tachyon compute builds trigger`.
+
+Do not replace the placeholders in `tachyon.yml`; the helper renders them from
+the Git remote and the environment overrides. Override only the value that
+differs:
 
 ```sh
 TACHYON_TENANT_ID=tn_example ./scripts/tachyon-apply.sh
